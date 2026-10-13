@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""motion-studio 音频工具，只依赖 numpy + ffmpeg。
+"""xiaoma-studio 音频工具，只依赖 numpy + ffmpeg。
 
   python3 audio.py synth cues.json out.wav     按提示表合成配乐 + 卡点音效，响度归一到 -14 LUFS
   python3 audio.py analyze track.mp3 > beats.json   给现成音乐测 BPM、拍点、强弱段落

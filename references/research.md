@@ -60,3 +60,4 @@
 5. **Devarf effort 实验**：同一句 MV prompt，low → max effort 耗时 42 分钟 → 3 小时，token 7.8 万 → 62.5 万，费用约 $3 → $49；画面从 2D 变成 3D。先用音频分析工具把歌拆成拍点、乐器、响度、歌词含义，再交给模型。
 6. **Vincent（抖音，GitHub 万星 skill 作者）**：WebGL / Canvas 逐帧渲染，NumPy 从零合成配乐和音效，「一句话出片」。
 7. **LLMJunky**：让模型自己调用 keychain 里的 key：Gemini Flash TTS 旁白、Lyria 3 配乐、GPT Image 2.5 和 Nano Banana 出场景，代码画剪影剧场和光学动画，36 分钟，花了 $200 多。
+8. **prompt-motion.com**（@p4nthera_ 维护）：Opus 5.5 动效视频 + prompt 的合集，是持续更新的一手语料，热门规律见 `prompts.md` 末节。motion.dev 是网页 UI 交互动画库，靠实时驱动，和本 skill 逐帧确定性渲染的合约冲突，没有纳入。

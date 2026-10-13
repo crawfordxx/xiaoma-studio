@@ -1,4 +1,4 @@
-/* motion-studio 基础样式：舞台、胶片颗粒、暗角、遮幅、HUD 取景框。
+/* xiaoma-studio 基础样式：舞台、胶片颗粒、暗角、遮幅、HUD 取景框。
  * 所有动效都由 runtime.js 按 t 写入 style，这里只放静态外观。
  * 严禁在这里写 transition / animation —— 它们不受 seek(t) 控制，渲染出来会错帧。 */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; transition: none !important; animation: none !important; }

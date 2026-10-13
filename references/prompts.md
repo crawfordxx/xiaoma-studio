@@ -90,3 +90,20 @@ Apple 发布会风格的发布片，只用 2D，一镜到底。每个场景都�
 交付到 ___/：STORYBOARD.md、index.html、cues.json、out/video.mp4、out/sheet.jpg（最后一轮拼图）。
 完成后报告：选了哪个原型、为什么；拼图自检每轮的 6 项分数；qa.py 的输出。
 ```
+
+## prompt-motion.com 热门榜的规律（2026-10 抓取前 16 名）
+
+[prompt-motion.com](https://prompt-motion.com/) 收录了数百条 Opus 5.5 动效视频及其 prompt / skill，分类数量本身就是热度信号：Product UI 100、Kinetic type 97、Music 50、Shapes 44、Particles 43、Charts 33、Diagrams 31、Characters 27。
+
+- **前 16 名里有 7 条是同一句话**：「15 秒 showreel，go all out」。品牌变体同样排得很靠前：
+  ```
+  先研究 <品牌/产品>。做一条 40 秒的动效视频，展示你是多厉害的 motion designer，像你的 showreel 一样，主题是 <品牌>。风格和它的落地页一致。全力以赴。
+  ```
+- **结构化长 prompt 的固定五段**：`<inputs>`（先问要什么素材，给出缺省值）→ `<direction>`（体裁、色板角色、字体、镜头语言 + Banned 清单）→ `<structure>`（BPM × 小节，逐拍写事件）→ `<build>`（seek(t) 合约、闭式弹簧、音频测拍、子帧运动模糊、先逐拍出静帧）→ `<start>`（先给拍点表和关键帧再写整片）。
+- **一个形状贯穿所有状态**（twoclipping UI 形变）：按钮 → 加载 → 对勾 → 灵动岛 → 播放器 → 进度条 → 音量 → 开关 → tab 指示器 → 图表 → ⌘K → toast → 回到按钮。指示器两条边用不同的弹簧，前沿跑在后沿前面，有拉伸感。
+- **概念 × 风格切换**（Ethan Mollick）：
+  ```
+  做一个解释「递归」的视频，每一段解释都换一种截然不同的视频风格，让它自我指涉、聪明、节奏快。
+  ```
+- **参考视频驱动**（LexnLin）：附一段 5 秒参考，要求研究它的流畅度、节奏、镜头时长、字体和元素，借鉴技法但整体重新设计，「看起来像是你凭自己的品味做的」。
+- **常见附加约束**：「no beige artsy look, no eyebrow labels」（不要米色文艺风、不要眉标小字）、「屏幕文字不带句号」、「Feel free to work 10+ hours」（给足时长预算）。

@@ -1,4 +1,4 @@
-/* motion-studio runtime —— 每一帧都是时间 t 的纯函数。
+/* xiaoma-studio runtime —— 每一帧都是时间 t 的纯函数。
  *
  * 渲染合约（render contract）：
  *   - 画面只由 MS.render(fn) 注册的 fn(t) 决定；同一个 t 永远画出同一帧。

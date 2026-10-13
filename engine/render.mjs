@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// motion-studio 渲染器：无头 Chromium 逐帧 seek(t) 截图 → ffmpeg 编码。
+// xiaoma-studio 渲染器：无头 Chromium 逐帧 seek(t) 截图 → ffmpeg 编码。
 //
 //   node render.mjs comp.html --out out/video.mp4            整片
 //   node render.mjs comp.html --sheet out/sheet.jpg          每拍一帧的拼图（先看它，再出整片）

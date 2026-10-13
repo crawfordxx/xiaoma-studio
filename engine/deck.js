@@ -1,4 +1,4 @@
-/* motion-studio deck —— HTML 幻灯片 = 带暂停点的时间轴。
+/* xiaoma-studio deck —— HTML 幻灯片 = 带暂停点的时间轴。
  * 同一个文件：演讲时方向键逐步推进；导出时按 data-dur 连续播放成视频，或每页一张 PNG/PDF。
  *
  *   <section class="slide" data-dur="6" data-tr="push">

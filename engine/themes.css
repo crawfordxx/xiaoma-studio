@@ -1,4 +1,4 @@
-/* motion-studio 风格原型：从 30 条高赞 Opus 5.5 视频里归纳的 10 套视觉 token。
+/* xiaoma-studio 风格原型：从 30 条高赞 Opus 5.5 视频里归纳的 10 套视觉 token。
  * 用法：<div id="stage" class="theme-museum">。每套只给 token，构图规则见 references/aesthetics.md。
  * 共同铁律：一个底色 + 一个前景色 + 一个强调色；一个标题字体 + 一个正文/UI 字体（+ 可选等宽）。
  * 字体栈本地优先，离线和国内网络都能渲染；要统一跨平台外观就在合成里 @font-face 引本地字体文件。 */

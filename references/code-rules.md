@@ -76,12 +76,13 @@ node render.mjs deck.html --slides out/slides --pdf out/deck.pdf                
 4. **CSS transition / animation**：浏览器会按真实时间播放它们，和 seek 无关，渲染出来全是错帧。`base.css` 已经全局禁用，不要在合成里重新打开。
 5. **Math.random()**：每次 seek 结果都不一样，画面会闪。一律用 `MS.hash(i)` / `MS.rng(seed)`。
 6. **字体**：渲染前会等 `document.fonts.ready`。国内网络别依赖 Google Fonts，用本地字体栈（`themes.css` 已经配好），或者用 `@font-face` 引本地字体文件。canvas 里写字要用和 DOM 相同的字体名。
-7. **视频素材**：先 `ffmpeg -i in.mp4 -g 1 -an all_intra.mp4` 转全帧内编码，再用 blob URL 或本地文件加载，并且 `await MS.videoAt(v, t)`。`python -m http.server` 不支持 range 请求，没法 seek。
+7. **视频素材**：最稳的做法是用 `ffmpeg -i clip.mp4 -vf fps=30 frames/%04d.jpg` 拆成 JPEG 序列，每帧换 `img.src` 并 `await img.decode()`（twoclipping 的 UGC 广告就是这样做的）。其次是先 `ffmpeg -i in.mp4 -g 1 -an all_intra.mp4` 转全帧内编码，再用 blob URL 或本地文件加载，并且 `await MS.videoAt(v, t)`。`python -m http.server` 不支持 range 请求，没法 seek。
 8. **backdrop-filter 做液态玻璃**：Chromium 对 `backdrop-filter: url()` 的位移贴图支持有问题。做法是让玻璃元素持有一份它背后场景的克隆，对克隆用 SVG `feDisplacementMap`（twoclipping 的经验）。
 9. **visibility**：子元素设了 `visibility: visible` 时，父元素隐藏了它也照样显示。用 `display:none`（`MS.show`），或者子元素用 `inherit`。
 10. **逐字拆分只拆一次**：`MS.split` 会把结果缓存在元素上。换文字时要先清掉 `el.__msSplit = null`（字幕轮换时）。
 11. **canvas 清屏**：`MS.canvas()` 每次调用都会清屏。同一帧里不要对同一个 canvas 调用两次。
 12. **大量 DOM 节点**：上千个点用 canvas 画，不要用 div。
+13. **颜色也要过渡**：形状从白卡片变成黑 toast 时，如果 `background` 直接取「当前状态的颜色」，就会在一帧内跳变，`qa.py` 会报单帧跳变。颜色和尺寸一样，要在 0.2–0.3 秒内插值（见 `examples/launch-morph` 的 `bgAt`）。
 
 ## 性能
 
