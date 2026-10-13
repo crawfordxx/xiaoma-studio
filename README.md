@@ -37,7 +37,7 @@
 ## 快速开始
 
 ```bash
-git clone https://github.com/<you>/xiaoma-studio && cd xiaoma-studio
+git clone https://github.com/crawfordxx/xiaoma-studio && cd xiaoma-studio
 cd engine && npm install && cd ..          # 需要 node 18+、ffmpeg、python3 + numpy
 node engine/init.mjs ~/my-video video      # 或 slides
 open ~/my-video/index.html                 # 预览
