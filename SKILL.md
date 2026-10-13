@@ -28,13 +28,19 @@ cd <skill>/engine && npm install          # 只装 playwright-core；浏览器�
    ```bash
    node engine/render.mjs comp.html --sheet out/sheet.jpg      # 默认每拍一帧；--every 1 = 每秒一帧
    ```
-   **打开图片亲自看。** 按 6 项各打 1–10 分：前 2 秒钩子、手机尺寸可读性、动效质量、变化密度、风格一致、声画同步。修最差的 3 处，重出拼图，直到每项 ≥ 8 才进下一步。单个时刻用 `--stills 2.5,7.0 --dir out/stills` 看原尺寸。
+   再跑一遍不需要看图的自动检查（每轮都跑，不能读图的模型更要靠它）：
+   ```bash
+   node engine/lint.mjs comp.html        # 确定性（乱序渲染 = 顺序渲染）/ 文字对比度 / 文字重叠
+   ```
+   **能读图就打开图片亲自看**；不能读图的模型以 lint 全绿 + `--stills` 关键帧的像素统计为准，并在报告里写明「未目视检查」。按 6 项各打 1–10 分：前 2 秒钩子、手机尺寸可读性、动效质量、变化密度、风格一致、声画同步。修最差的 3 处，重出拼图，直到每项 ≥ 8 才进下一步。单个时刻用 `--stills 2.5,7.0 --dir out/stills` 看原尺寸。
 6. **声音**：默认纯音乐 + 卡点音效。用 `engine/audio.py synth cues.json` 从零合成；用户给了音乐就先 `audio.py analyze` 拿到 BPM 和拍点，再把镜头对到拍上。需要旁白时看 `references/audio.md`（TTS 选型、逐字时间戳、闪避混音）。
 7. **出片 + 体检**：
    ```bash
    node engine/render.mjs comp.html --out out/video.mp4 --audio out/audio.wav [--fps 60 --subframes 2]
    python3 engine/qa.py out/video.mp4      # 规格 / 响度 / 单帧跳变 / 静止段
+   node engine/lint.mjs comp.html          # 交付前必须全绿
    ```
+   渲染整片可能要几分钟：放后台跑，或者分段跑（`--from/--to`），等 ffprobe 能读出时长再验收，别在文件写完之前就去跑 qa。
    跳变和静止段要么修掉，要么能说清楚是故意的。
 
 幻灯片：`node engine/render.mjs deck.html --slides out/slides --pdf out/deck.pdf`；同一个文件直接 `--out deck.mp4` 就是视频版。
@@ -48,6 +54,8 @@ cd <skill>/engine && npm install          # 只装 playwright-core；浏览器�
 5. **每 2–4 秒发生一件新事，一次只让观众读一件事。** 快动作，慢意义：动作可以很快，但它的意思要留够时间被看懂。
 6. **首尾呼应。** 最后一帧要呼应第一帧：同一个物件、同一句话或同一个形状，状态变了。
 7. **帧 = f(t)，先拼图后整片。** 见下方渲染合约。
+
+**事实**：片子里出现的数据、年份、人名、研究结论，必须能说出处。查不到原始数字就不写具体数字（用「更多 / 更少」、趋势图代替），不准编。引用研究时把作者、年份写在画面上。
 
 **禁用清单**：渐变底居中标题、所有元素都用同一种淡入、通用粒子背景 / 粒子爆炸、冲击波圆环、RGB 分离、镜头抖动、镜头光晕、霓虹发光（霓虹原型除外）、网格地板、闪烁背景、UI 上的弹跳缓动、四角乱贴科技标签（HUD 原型除外）、屏幕文字带句号、任何一眼就像模板的东西、超过 1 秒的无意义停顿、一个画面同时冒出两件事。
 
@@ -91,4 +99,6 @@ cd <skill>/engine && npm install          # 只装 playwright-core；浏览器�
 - [ ] STORYBOARD.md 写过，且对照检查表自查过
 - [ ] 至少一轮拼图自检，6 项都 ≥ 8，修改记录写进 STORYBOARD.md 末尾
 - [ ] `qa.py`：0 处未解释的跳变 / 静止段，响度 −14 LUFS 左右
+- [ ] `lint.mjs` 全绿（视频和幻灯片都要跑）
+- [ ] 画面里的每个数字都有出处
 - [ ] 交付 mp4（+ 幻灯片的 PDF），并告诉用户怎么改：改哪个文件、改哪个常量

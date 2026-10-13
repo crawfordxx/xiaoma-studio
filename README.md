@@ -29,6 +29,7 @@
 | `engine/render.mjs` | 无头 Chromium 逐帧渲染 → H.264。支持每拍一帧的自检拼图、静帧、子帧运动模糊、幻灯片 PNG / PDF |
 | `engine/audio.py` | NumPy 合成配乐和卡点音效（−14 LUFS）；给现成音乐测 BPM、拍点和段落 |
 | `engine/qa.py` | 成片体检：规格、响度、单帧跳变、静止段 |
+| `engine/lint.mjs` | 不用看图的自检：确定性（乱序渲染 = 顺序渲染）、文字对比度、文字重叠 |
 | `engine/themes.css` | 10 个风格原型：博物馆纪录片 / 编辑部数据 / 宇宙电影 / 瑞士 reel / 产品发布 / 纸艺绘本 / 霓虹歌词 / 新粗野主义 / 工程爆炸图 / 游戏 HUD |
 | `engine/deck.js` | HTML 幻灯片：同一个文件能演讲、导出视频、导出 PDF |
 | `engine/init.mjs` | 新建自包含项目（模板 + 运行时 + 分镜模板） |
@@ -45,6 +46,7 @@ node engine/render.mjs ~/my-video/index.html --sheet ~/my-video/out/sheet.jpg   
 python3 engine/audio.py synth ~/my-video/cues.json ~/my-video/out/audio.wav
 node engine/render.mjs ~/my-video/index.html --out ~/my-video/out/video.mp4 --audio ~/my-video/out/audio.wav
 python3 engine/qa.py ~/my-video/out/video.mp4
+node engine/lint.mjs ~/my-video/index.html
 ```
 
 更常见的用法是直接让 agent 来做：「用 xiaoma-studio 做一个讲解 XX 的 60 秒视频和一份幻灯片」。
@@ -56,7 +58,15 @@ python3 engine/qa.py ~/my-video/out/video.mp4
 - **pi**：`pi --skill /path/to/xiaoma-studio "…"`
 - **其他 agent**：把 `SKILL.md` 放进系统提示，并让它能读到 `references/`
 
-跨模型实测：用 pi + GLM 5.3 独立跑本 skill，完成了一个讲解「沉没成本」的视频（见下方「跨模型测试」）。
+
+
+## 跨模型测试
+
+用 **pi + GLM 5.3**（一个不能读图的非 Claude 模型）独立跑本 skill，只给了一句普通需求：「做一个讲解沉没成本的视频和幻灯片」。结果见 [`examples/cross-model-glm-5.3`](examples/cross-model-glm-5.3)：
+
+- 58 秒视频 + 9 页幻灯片。它按工作流走完了分镜 → 4 轮自检 → 合成配乐 → QA 全绿。
+- 独立验收发现 3 个问题：残留的标题层、亮底页文字看不见、编造了实验数据。完整记录在 [TEST_REPORT.md](examples/cross-model-glm-5.3/TEST_REPORT.md)。
+- 针对这些问题，skill 新增了 `lint.mjs`（不用看图的确定性 / 对比度 / 重叠检查）和「事实核查」规则。
 
 ## 推荐搭配
 
