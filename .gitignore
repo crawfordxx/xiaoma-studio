@@ -1,0 +1,6 @@
+node_modules/
+out/
+!examples/*/out/
+examples/*/out/stills/
+examples/*/out/slides/
+.DS_Store
