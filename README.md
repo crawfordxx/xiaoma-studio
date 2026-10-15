@@ -1,7 +1,7 @@
 # xiaoma-studio
 
-> 用代码做「Opus 5.5 爆款级」动效视频和 HTML 幻灯片的 skill。任何能写代码的模型 / agent 都能用。
-> A skill for code-driven motion videos & HTML slides at the standard of the most-liked Opus 5.5 videos — usable by any coding model or agent.
+> 用代码做「Opus 5.5 爆款级」动效视频、HTML 幻灯片和有动效的官网 / 落地页的 skill。任何能写代码的模型 / agent 都能用。
+> A skill for code-driven motion videos, HTML slides and animated marketing sites at the standard of the most-liked Opus 5.5 videos — usable by any coding model or agent.
 
 规则来自抖音、X、YouTube 上 30 条高赞 Opus 5.5 视频的逐帧拆解（最高 60 万赞 / 64 万播放）：抽帧拼图、剪辑频率、色板、音轨转写、原帖 prompt，再加上 [prompt-motion.com](https://prompt-motion.com/) 热门榜。明细见 [references/research.md](references/research.md)。
 
@@ -32,8 +32,12 @@
 | `engine/lint.mjs` | 不用看图的自检：确定性（乱序渲染 = 顺序渲染）、文字对比度、文字重叠 |
 | `engine/themes.css` | 10 个风格原型：博物馆纪录片 / 编辑部数据 / 宇宙电影 / 瑞士 reel / 产品发布 / 纸艺绘本 / 霓虹歌词 / 新粗野主义 / 工程爆炸图 / 游戏 HUD |
 | `engine/deck.js` | HTML 幻灯片：同一个文件能演讲、导出视频、导出 PDF |
-| `engine/init.mjs` | 新建自包含项目（模板 + 运行时 + 分镜模板） |
-| `references/` | 审美、分镜节奏、动效语法、代码规则、声音与 TTS、GPT Image / Seedance 素材、幻灯片、prompt 库、研究底稿 |
+| `engine/init.mjs` | 新建自包含项目（`video` / `slides`：模板 + 运行时 + 分镜模板；`web`：Vite 网页骨架） |
+| `templates/web/` | 网页骨架：三套主题（纸墨编辑 / 深空信号 / 亮色编辑）、拆字入场、Lenis 平滑滚动、光标与磁吸、流光描边、可取消的演示台、展厅自动演示 |
+| `engine/webcheck.mjs` | 网页体检：390–1920 多宽度逐版块截图 + 横向溢出 / 导航溢出 / 文字出界 / 请求失败 / 坏图 / 控制台报错 |
+| `engine/fontcheck.py` | 自托管中文字体分片体检：缺文件、字重被冻结（个别字突然变粗）、缺字 |
+| `engine/split-logo.py` | 把 .ai / .pdf 设计稿里的 logo 按矩形拆成独立 SVG |
+| `references/` | 审美、分镜节奏、动效语法、代码规则、声音与 TTS、GPT Image / Seedance 素材、配图配视频审美（`art-direction.md`）、网页（`web.md`）、幻灯片、prompt 库、研究底稿 |
 
 ## 快速开始
 
@@ -49,7 +53,14 @@ python3 engine/qa.py ~/my-video/out/video.mp4
 node engine/lint.mjs ~/my-video/index.html
 ```
 
-更常见的用法是直接让 agent 来做：「用 xiaoma-studio 做一个讲解 XX 的 60 秒视频和一份幻灯片」。
+网页：
+
+```bash
+node engine/init.mjs ~/my-site web && cd ~/my-site && npm install && npm run dev
+node /path/to/xiaoma-studio/engine/webcheck.mjs http://localhost:5173/    # 多宽度截图 + 自动检查，打开 out/webcheck/report.html
+```
+
+更常见的用法是直接让 agent 来做：「用 xiaoma-studio 做一个讲解 XX 的 60 秒视频和一份幻灯片」「用 xiaoma-studio 给 XX 产品做一个官网」。
 
 ## 装进 agent
 
